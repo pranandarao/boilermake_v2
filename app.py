@@ -392,8 +392,41 @@ def fullmap():
         GOOGLEMAPS_KEY=request.args.get('apikey')
     )
 
+@app.route("/mainpage")
+def mainpage():
+    clickmap = Map(
+        identifier="clickmap",
+        varname="clickmap",
+        lat=37.4419,
+        lng=-122.1419,
+        report_clickpos=True,
+        clickpos_uri="/clickpost2/",
+        style = (
+                "height:50%;"
+                "width:50%;"
+                "top:100;"
+                "left:100;"
+                "position:absolute;"
+                "z-index:200;"
+        )
+    )
+    return render_template(
+        'mainpage.html',
+        clickmap=clickmap,
+        GOOGLEMAPS_KEY=request.args.get('apikey')
+    )
+
 @app.route('/clickpost/', methods=['POST'])
 def clickpost():
+    # Now lat and lon can be accessed as:
+    lat = request.form['lat']
+    lng = request.form['lng']
+    print(lat)
+    print(lng)
+    return "ok"
+
+@app.route('/clickpost2/', methods=['POST'])
+def clickpost2():
     # Now lat and lon can be accessed as:
     lat = request.form['lat']
     lng = request.form['lng']
