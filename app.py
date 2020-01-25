@@ -403,9 +403,9 @@ def mainpage():
         clickpos_uri="/clickpost2/",
         style = (
                 "height:80%;"
-                "width:80%;"
-                "top:100;"
-                "left:100;"
+                "width:100%;"
+                "top:400;"
+                "left:400;"
                 "position:absolute;"
                 "z-index:200;"
         )
