@@ -18,7 +18,7 @@ GoogleMaps(
 # NOTE: this example is using a form to get the apikey
 
 
-@app.route("/")
+@app.route("/example")
 def mapview():
     mymap = Map(
         identifier="view-side",  # for DOM element
@@ -392,7 +392,7 @@ def fullmap():
         GOOGLEMAPS_KEY=request.args.get('apikey')
     )
 
-@app.route("/mainpage")
+@app.route("/")
 def mainpage():
     clickmap = Map(
         identifier="clickmap",
@@ -402,8 +402,8 @@ def mainpage():
         report_clickpos=True,
         clickpos_uri="/clickpost2/",
         style = (
-                "height:50%;"
-                "width:50%;"
+                "height:80%;"
+                "width:80%;"
                 "top:100;"
                 "left:100;"
                 "position:absolute;"
