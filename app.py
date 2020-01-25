@@ -3,8 +3,12 @@
 from flask import Flask, render_template, request
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+import googlemaps
+from datetime import datetime
 
 app = Flask(__name__, template_folder="templates")
+
+gmaps = googlemaps.Client(key='AIzaSyDhgADN11I7GEIaSADHh8vQ3JLW9oUWaqc')
 
 # you can set key as config
 app.config['GOOGLEMAPS_KEY'] = "AIzaSyDhgADN11I7GEIaSADHh8vQ3JLW9oUWaqc"
@@ -12,10 +16,17 @@ app.config['GOOGLEMAPS_KEY'] = "AIzaSyDhgADN11I7GEIaSADHh8vQ3JLW9oUWaqc"
 # you can also pass key here
 GoogleMaps(
     app,
-    #key="AIzaSyDP0GX-Wsui9TSDxtFNj2XuKrh7JBTPCnU"
+    # key="AIzaSyDP0GX-Wsui9TSDxtFNj2XuKrh7JBTPCnU"
 )
 
 # NOTE: this example is using a form to get the apikey
+
+directions_result = gmaps.directions("Sydney Town Hall",
+                                     "Paramatta, NSW",
+                                     mode="transit",
+                                     departure_time=datetime.now())
+
+print(directions_result)
 
 
 @app.route("/example")
@@ -169,8 +180,8 @@ def mapview():
         'fill_color': '#FFFFFF',
         'fill_opacity': .8,
         'center': {
-                  'lat': 33.685,
-                  'lng': -116.251
+            'lat': 33.685,
+            'lng': -116.251
         },
         'radius': 2000,
     }
@@ -321,8 +332,6 @@ def mapview():
         clickpos_uri="/clickpost/"
     )
 
-
-
     return render_template(
         'example.html',
         mymap=mymap,
@@ -392,6 +401,7 @@ def fullmap():
         GOOGLEMAPS_KEY=request.args.get('apikey')
     )
 
+
 @app.route("/")
 def mainpage():
     clickmap = Map(
@@ -401,13 +411,13 @@ def mainpage():
         lng=-122.1419,
         report_clickpos=True,
         clickpos_uri="/clickpost2/",
-        style = (
-                "height:80%;"
-                "width:100%;"
-                "top:400;"
-                "left:400;"
-                "position:absolute;"
-                "z-index:200;"
+        style=(
+            "height:80%;"
+            "width:100%;"
+            "top:400;"
+            "left:400;"
+            "position:absolute;"
+            "z-index:200;"
         )
     )
     return render_template(
@@ -415,6 +425,7 @@ def mainpage():
         clickmap=clickmap,
         GOOGLEMAPS_KEY=request.args.get('apikey')
     )
+
 
 @app.route('/clickpost/', methods=['POST'])
 def clickpost():
@@ -425,6 +436,7 @@ def clickpost():
     print(lng)
     return "ok"
 
+
 @app.route('/clickpost2/', methods=['POST'])
 def clickpost2():
     # Now lat and lon can be accessed as:
@@ -433,6 +445,7 @@ def clickpost2():
     print(lat)
     print(lng)
     return "ok"
+
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True)
